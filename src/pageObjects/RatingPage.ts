@@ -2,41 +2,27 @@ import Page from './page';
 import Element from '../elements/Element';
 
 /**
- * Главная страница
+ *  страница /rating
  */
-class MainPage extends Page {
+class RatingPage extends Page {
   /**
    * Объявление селекторов до элементов
    */
-  get searchInput() {
-    const element = new Element({ name: 'Поле ввода', locator: '//input[@placeholder]' });
+
+  get goToRating() {
+    const element = new Element({ name: 'кнопка перехода на /rating', locator: '//*[@href="/rating"]'  });
     return browser.element(element);
   }
 
-  get findCatNameBtn() {
-    const element = new Element({ name: 'Кнопка найти', locator: '//button[@type="submit"]' });
-    return browser.element(element);
-  }
-
-  get Rating() {
-    const element = new Element({ name: 'Кнопка рейтинг', locator: '//*[@href="/rating"]'  });
+  get PromResult() {
+    const element = new Element({ name: 'столбец рейтинга с количеством лайков', locator: '//*[@class="rating-names_item-count__1LGDH has-text-success"]'  });
     return browser.element(element);
   }
 
   async open() {
     const go = await super.open();
-    await this.waitForLoaded();
     return go;
-  }
-  waitForLoaded() {
-    super.waitForLoaded();
-    return browser.waitUntil(
-      async () => {
-        return (await this.searchInput).isExisting();
-      },
-      { timeoutMsg: 'Страница не загрузилась' }
-    );
   }
 }
 
-export default new MainPage('Главная страница');
+export default new RatingPage('страница рейтинга');
